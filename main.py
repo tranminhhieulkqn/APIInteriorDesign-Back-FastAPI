@@ -6,7 +6,9 @@ from source.Predictor import Predictor
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+predictor = Predictor.getInstance()
 labels = ['Art Decor', 'Hi-Tech', 'IndoChinese', 'Industrial', 'Scandinavian']
+
 
 @app.get("/")
 async def root():
@@ -23,7 +25,7 @@ async def predict(body: PredictBody):
         try:
             import time
             start = time.time()
-            output = Predictor.getInstance().ensemble_predict(image_url=url)
+            output = predictor.ensemble_predict(image_url=url)
             end = time.time() - start
             print('time: ', end)
         except():
