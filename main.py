@@ -1,3 +1,4 @@
+import gc
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.staticfiles import StaticFiles
@@ -26,8 +27,10 @@ async def predict(body: PredictBody):
             import time
             start = time.time()
             output = predictor.ensemble_predict(image_url=url)
+            print(predictor)
             end = time.time() - start
             print('time: ', end)
+            gc.collect()
         except():
             return {
                 "success": False,

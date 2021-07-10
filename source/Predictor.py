@@ -199,10 +199,10 @@ class Predictor:
     @staticmethod
     def ensemble_predict(image_url):
         image = Predictor.__get_image_from_url(image_url)
-        # images = Predictor.__data_processing(image=image)
-        images = image.resize((224, 224))
-        croped_image = np.array(images) / 255
-        images = croped_image.reshape(-1, Predictor.__target_size, Predictor.__target_size, 3).astype(np.float32)
+        images = Predictor.__data_processing(image=image)
+        # images = image.resize((224, 224))
+        # croped_image = np.array(images) / 255
+        # images = croped_image.reshape(-1, Predictor.__target_size, Predictor.__target_size, 3).astype(np.float32)
 
         predictions = []
         for model_name in Predictor.__models:
