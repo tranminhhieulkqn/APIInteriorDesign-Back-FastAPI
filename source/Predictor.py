@@ -178,10 +178,10 @@ class Predictor:
         output_details = model.get_output_details()
 
         # if input and output not map with input image => reshape
-        # if noImage != input_details[0]['shape'][0]:
-        #     model.resize_tensor_input(input_details[0]['index'], (noImage, target_size, target_size, 3))
-        #     model.resize_tensor_input(output_details[0]['index'], (noImage, 5))
-        #     model.allocate_tensors()
+        if noImage != input_details[0]['shape'][0]:
+            model.resize_tensor_input(input_details[0]['index'], (noImage, target_size, target_size, 3))
+            model.resize_tensor_input(output_details[0]['index'], (noImage, 5))
+            model.allocate_tensors()
 
         # set input images with input layer interpreter
         model.set_tensor(input_details[0]['index'], images)
@@ -199,10 +199,10 @@ class Predictor:
     @staticmethod
     def ensemble_predict(image_url):
         image = Predictor.__get_image_from_url(image_url)
-        # images = Predictor.__data_processing(image=image)
-        images = image.resize((224, 224))
-        croped_image = np.array(images) / 255
-        images = croped_image.reshape(-1, Predictor.__target_size, Predictor.__target_size, 3).astype(np.float32)
+        images = Predictor.__data_processing(image=image)
+        # images = image.resize((224, 224))
+        # croped_image = np.array(images) / 255
+        # images = croped_image.reshape(-1, Predictor.__target_size, Predictor.__target_size, 3).astype(np.float32)
 
         predictions = []
         for model_name in Predictor.__models:
